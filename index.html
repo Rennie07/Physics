@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Project Gear Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #startScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            text-align: center;
+            z-index: 1000;
+        }
+        #launchButton {
+            margin-top: 20px;
+            padding: 20px 40px;
+            font-size: 24px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #launchButton:hover {
+            background-color: #45a049;
+        }
+        #startBtn, #updateGearsBtn {
+            margin-left: 10px;
+            padding: 8px 16px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #startBtn {
+            background-color: #4CAF50; /* Green color */
+            color: white;
+        }
+        #startBtn:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+        #updateGearsBtn {
+            background-color: #FFEB3B; /* Yellow color */
+            color: black;
+        }
+        #updateGearsBtn:hover {
+            background-color: #FDD835; /* Darker yellow on hover */
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Final Physics Project</h1>
+    </header>
+    <div id="navbar"></div>
+    <main>
+        <div id="startScreen">
+            <span>Calculating Gears</span>
+            <button id="launchButton">Launch</button>
+        </div>
+        
+        <canvas id="canvas1" width="800" height="600"></canvas>
+
+        <img id="gear10" src="assets/Gears/involute_gear_10_to_8.png" hidden>
+        <img id="gear12" src="assets/Gears/involute_gear_12_to_8.png" hidden>
+
+        <div>
+            <label for="forceInput">Enter Force (N):</label>
+            <input type="number" id="forceInput" value="50">
+        </div>
+
+        <div>
+            <label for="gear1Teeth">Gear 1 Teeth:</label>
+            <input type="number" id="gear1Teeth" value="10">
+        </div>
+
+        <div>
+            <label for="gear2Teeth">Gear 2 Teeth:</label>
+            <input type="number" id="gear2Teeth" value="12">
+        </div>
+
+        <button id="startBtn">Start Calculations</button>
+        <button id="updateGearsBtn">Update Gears</button>
+
+        <!-- Results Section -->
+        <div id="results">
+            <p><strong>Torque on First Gear:</strong> <span id="torqueValue">0</span> N*m</p>
+            <p><strong>Force Transferred to Second Gear:</strong> <span id="forceValue">0</span> N</p>
+            <p><strong>Gear Ratio:</strong> <span id="gearRatio">1.00</span></p>
+        </div>
+
+        <script type="module" src="main.js"></script>
+    </main>
+
+    <script>
+        const startScreen = document.getElementById('startScreen');
+        const launchButton = document.getElementById('launchButton');
+        const startBtn = document.getElementById('startBtn');
+        const updateGearsBtn = document.getElementById('updateGearsBtn');
+        const canvas = document.getElementById('canvas1');
+        const gear10 = document.getElementById('gear10');
+        const gear12 = document.getElementById('gear12');
+
+        // Wait for the images to load before starting the simulation
+        let gear10Loaded = false;
+        let gear12Loaded = false;
+
+        gear10.onload = () => { gear10Loaded = true; };
+        gear12.onload = () => { gear12Loaded = true; };
+
+        launchButton.addEventListener('click', () => {
+            startScreen.style.display = 'none'; // Hide start screen
+        });
+
+        startBtn.addEventListener('click', () => {
+            performCalculations(); // Perform calculations on button click
+        });
+
+        updateGearsBtn.addEventListener('click', () => {
+            updateGears(); // Update gears when button is clicked
+        });
+
+        function performCalculations() {
+            // Perform any gear-related calculations here
+            const forceInput = document.getElementById('forceInput').value;
+            const gear1Teeth = document.getElementById('gear1Teeth').value;
+            const gear2Teeth = document.getElementById('gear2Teeth').value;
+
+            const gearRatio = gear2Teeth / gear1Teeth;
+            const torqueValue = forceInput * gearRatio; // Example calculation for torque
+
+            // Update results
+            document.getElementById('torqueValue').textContent = torqueValue.toFixed(2);
+            document.getElementById('forceValue').textContent = (forceInput / gearRatio).toFixed(2);
+            document.getElementById('gearRatio').textContent = gearRatio.toFixed(2);
+        }
+
+        function updateGears() {
+            console.log('Updating gears...');
+            // Add your gear update logic here
+        }
+    </script>
+</body>
+</html>
